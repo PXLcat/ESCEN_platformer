@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    private Transform transformByGetComponent;
     [SerializeField]
-    private Transform transformByReference;
+    private Transform _playerTransform;
+    [SerializeField]
+    private float _movementSpeed = 0.5f;
 
 
     // Start is called before the first frame update
     private void Start()
     {
         Debug.Log("Hello world!");
-        transformByGetComponent = GetComponent<Transform>();
     }
 
     private void OnEnable()
@@ -25,15 +25,27 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        Vector3 movement = Vector3.zero;
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            transformByGetComponent.position = transformByGetComponent.position + new Vector3(0, 0.1f, 0);
+            //Attention à avoir défini la référence
+            movement.y += _movementSpeed;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            //Attention à avoir défini la référence
-            transformByReference.position = transformByGetComponent.position + new Vector3(0, -0.1f, 0);
+            movement.y -= _movementSpeed;
         }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            movement.x -= _movementSpeed;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            movement.x += _movementSpeed;
+        }
+
+        _playerTransform.position += movement * Time.deltaTime;
     }
 
     private void OnDisable()
