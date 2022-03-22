@@ -9,6 +9,7 @@ public class CoinBehaviour : MonoBehaviour
     {
         Debug.Log("+1 pièce");
         //TODO Envoyer l'évènement
+        GameManager.Instance.AddACoin();
 
         Destroy(this.gameObject); //Attention à bien préciser 
     }
