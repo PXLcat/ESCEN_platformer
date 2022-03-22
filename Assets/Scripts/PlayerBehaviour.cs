@@ -12,15 +12,14 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     private float _jumpForce = 100f;
 
+    private PlayerState _currentState;
+
     // Start is called before the first frame update
     private void Start()
     {
         Debug.Log("Hello world!");
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     private void OnEnable()
     {
         Debug.Log("Je m'active!");
@@ -33,9 +32,10 @@ public class PlayerBehaviour : MonoBehaviour
         float horizontalMovement = 0;
         float verticalMovement = 0;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (_currentState == PlayerState.IsGrounded))
         {
             verticalMovement += _jumpForce;
+            _currentState = PlayerState.IsJumping;
         }
         //Plus besoin de normaliser, on pourrait utiliser une direction à 1 ou -1 en tant que multiplicateur,
         //mais c'est plus rapide de directement déterminer le mouvement
@@ -65,7 +65,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("PlatformerGround"))
         {
             Debug.Log("Player touche le sol");
-
+            _currentState = PlayerState.IsGrounded;
         }
     }
 
@@ -74,5 +74,9 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log("Je me désactive.");
     }
 
-
+    private enum PlayerState
+    {
+        IsGrounded,
+        IsJumping
+    }
 }
