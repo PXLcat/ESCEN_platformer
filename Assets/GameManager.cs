@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     {
         _coinsCollected++;
         Debug.Log($"Tu as {_coinsCollected} pièce(s)");
+
+        // ".?" = Null Conditional Operator
+        OnCoinCollected?.Invoke();
     }
 
 }
