@@ -22,6 +22,6 @@ public class CoinsUI : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        GameManager.Instance.OnCoinCollected -= UpdateText;
     }
 }
