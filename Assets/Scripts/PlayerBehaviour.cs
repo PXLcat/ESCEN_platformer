@@ -73,12 +73,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Debug.Log("Collision!");
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("PlatformerGround"))
-        {
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("PlatformerGround"))
+        //{
             Debug.Log("Player touche le sol");
             _currentState = PlayerState.IsGrounded;
             _currentRemainingJumps = _totalRemainingJumps;
-        }
+        //}
     }
 
     private void OnDisable()
