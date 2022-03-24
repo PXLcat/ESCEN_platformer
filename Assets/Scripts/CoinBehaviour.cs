@@ -8,7 +8,7 @@ public class CoinBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("+1 pièce");
-        //TODO Envoyer l'évènement
+        //On envoie l'évènement
         GameManager.Instance.AddACoin();
 
         Destroy(this.gameObject); //Attention à bien préciser 
