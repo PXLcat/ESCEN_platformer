@@ -13,10 +13,24 @@ public class PlayerBehaviour : MonoBehaviour
     private float _jumpForce = 100f;
     [SerializeField]
     private int _totalRemainingJumps = 2;
+    [SerializeField]
+    private Animator _playerAnimator;
+
+    private int _currentRemainingJumps;
 
     private PlayerState _currentState;
 
-    private int _currentRemainingJumps;
+    public PlayerState CurrentState
+    {
+        get { return _currentState; }
+        set 
+        {
+            _currentState = value; 
+            _playerAnimator.SetInteger("PlayerState", (int)_currentState);
+        }
+    }
+
+
 
     // Start is called before the first frame update
     private void Start()
@@ -42,7 +56,7 @@ public class PlayerBehaviour : MonoBehaviour
             && (_currentRemainingJumps > 0))
         {
             verticalMovement += _jumpForce;
-            _currentState = PlayerState.IsJumping;
+            CurrentState = PlayerState.Jumping;
             _currentRemainingJumps--;
         }
         #endregion
@@ -58,6 +72,18 @@ public class PlayerBehaviour : MonoBehaviour
             horizontalMovement += _movementForce;
         }
         #endregion
+
+        if (CurrentState != PlayerState.Jumping)
+        {
+            if ((horizontalMovement == 0) && (verticalMovement == 0))
+            {
+                CurrentState = PlayerState.Idle;
+            }
+            else
+            {
+                CurrentState = PlayerState.Running;
+            }
+        }
 
         //Définir directement le y de la vélocité override ce que Unity calcule avec la gravité.
         //_playerRB.velocity = movement * _movementForce;
@@ -76,7 +102,7 @@ public class PlayerBehaviour : MonoBehaviour
         //if (collision.gameObject.layer == LayerMask.NameToLayer("PlatformerGround"))
         //{
             Debug.Log("Player touche le sol");
-            _currentState = PlayerState.IsGrounded;
+            CurrentState = PlayerState.Idle;
             _currentRemainingJumps = _totalRemainingJumps;
         //}
     }
@@ -86,9 +112,10 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log("Je me désactive.");
     }
 
-    private enum PlayerState
+    public enum PlayerState
     {
-        IsGrounded,
-        IsJumping
+        Idle,
+        Running,
+        Jumping
     }
 }
